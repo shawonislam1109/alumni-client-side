@@ -1,10 +1,10 @@
-import Navbar from "../navbar/Navbar";
 import { Outlet } from "react-router-dom";
+import NavSection from "../navbar/ResNav";
 
 const Main = () => {
   return (
     <div>
-      <Navbar />
+      <NavSection />
       <Outlet />
     </div>
   );
