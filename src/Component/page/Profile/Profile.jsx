@@ -9,12 +9,20 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditModal from "../Modal/EditModal";
 import DeleteModal from "../Modal/DeleteModal";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const { data } = useUserGetDataQuery();
   const loginData = JSON.parse(localStorage.getItem("login"));
   const filterLogin = data?.data.find((data) => data?._id === loginData?._id);
   const dispatch = useDispatch();
+  const logout = () => {
+    toast.success("success logout");
+    localStorage.clear();
+    location.reload();
+  };
   return (
     <Grid
       justifyContent="center"
@@ -36,16 +44,7 @@ const Profile = () => {
         <Typography mt={2} textAlign="center">
           {filterLogin?.firstName} {filterLogin?.lastName}
         </Typography>
-        <Box mt={3} display="flex" justifyContent="center">
-          <Button
-            onClick={() => dispatch(setEditModal(true))}
-            variant="contained"
-            startIcon={<EditNoteIcon />}
-            color="secondary"
-          >
-            Edit
-          </Button>
-        </Box>
+        <Box mt={3} display="flex" justifyContent="center"></Box>
         <Box mt={3}>
           <Typography mt={2} variant="h6" color="text.secondary">
             Email : {filterLogin?.email}
@@ -73,7 +72,15 @@ const Profile = () => {
           </Typography>
         </Box>
 
-        <Box mt={3} display="flex" justifyContent="center">
+        <Box mt={3} display="flex" justifyContent="center" gap={2}>
+          <Button
+            onClick={() => dispatch(setEditModal(true))}
+            variant="contained"
+            startIcon={<EditNoteIcon />}
+            color="secondary"
+          >
+            Edit
+          </Button>
           <Button
             onClick={() => dispatch(setDeleteModal(true))}
             color="error"
@@ -81,7 +88,16 @@ const Profile = () => {
             size="small"
             startIcon={<DeleteIcon />}
           >
-            Delete account
+            Delete
+          </Button>
+          <Button
+            onClick={logout}
+            color="inherit"
+            variant="contained"
+            size="small"
+            startIcon={<LogoutIcon />}
+          >
+            logOut
           </Button>
         </Box>
       </Grid>

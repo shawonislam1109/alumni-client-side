@@ -13,16 +13,14 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RateReviewIcon from "@mui/icons-material/RateReview";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  setDeleteModal,
-  setEditModal,
-} from "../../../Redux/feature/ModalSlice";
+import { setDeleteModal } from "../../../Redux/feature/ModalSlice";
 import DeleteModal from "../Modal/DeleteModal";
 import EditModal from "../Modal/EditModal";
+import { Link } from "react-router-dom";
 
 export default function AllStudent() {
   const dispatch = useDispatch();
@@ -78,11 +76,10 @@ export default function AllStudent() {
                   >
                     <DeleteIcon />
                   </IconButton>
-                  <IconButton
-                    onClick={() => dispatch(setEditModal(true))}
-                    aria-label="edit"
-                  >
-                    <EditNoteIcon />
+                  <IconButton>
+                    <Link to={`/singeStudent/${data._id}`}>
+                      <RateReviewIcon />
+                    </Link>
                   </IconButton>
                 </Box>
                 <DeleteModal id={data._id} />

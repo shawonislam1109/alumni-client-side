@@ -113,12 +113,16 @@ export default function NavSection(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/profile" style={{ textDecoration: "none" }}>
-          Profile
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {filterLogin && (
+        <>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              Profile
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        </>
+      )}
     </Menu>
   );
   const navMenu = (
@@ -208,28 +212,25 @@ export default function NavSection(props) {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-        <Box>
-          <Link to="/profile" style={{ textDecoration: "none" }}>
-            Profile
-          </Link>
-        </Box>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <Box>
-          <Link to="/profile" style={{ textDecoration: "none" }}>
-            Profile
-          </Link>
-        </Box>
-      </MenuItem>
+      {filterLogin && (
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <Box>
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              Profile
+            </Link>
+          </Box>
+        </MenuItem>
+      )}
     </Menu>
   );
 

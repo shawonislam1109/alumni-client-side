@@ -37,10 +37,11 @@ const Login = () => {
   if (data?.token) {
     localStorage.setItem("token", data?.token);
     localStorage.setItem("login", JSON.stringify(data?.data));
+    location.reload();
   }
   const authLogin = () => {
     if (data?.status == "success") {
-      toast.success("successfully login");
+      toast.success("successfully ");
       navigate("/");
     } else {
       toast.error("Envalid Email");
@@ -56,6 +57,7 @@ const Login = () => {
     postLogin(FormData);
     authLogin();
   };
+
   return (
     <Box>
       <form onSubmit={handleSubmit(onSubmit)}>

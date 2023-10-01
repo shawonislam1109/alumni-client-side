@@ -30,8 +30,23 @@ const apiSlice = createApi({
     }),
     singleStudent : builder.query({
       query: (id) => ({
-        url : `/getUserById/${id}`
+        url : `/getUserById/${id}`,
       })
+    }),
+    userDelete : builder.mutation({
+      query: (id) => ({
+        url: `/deleteById/${id}`,
+        method : 'delete'
+      }),
+      invalidatesTags : ['user']
+    }),
+    updateUser : builder.mutation({
+      query : (data)  => ({
+        url : `/updateUser/${data._id}`,
+        method : 'put',
+        body : data
+      }),
+      invalidatesTags : ['user']
     })
   }),
   
@@ -41,7 +56,9 @@ export const {
   useUserPostLogInMutation,
   useUserPostRegMutation,
   useUserGetDataQuery,
-  useSingleStudentQuery
+  useSingleStudentQuery,
+  useUserDeleteMutation,
+  useUpdateUserMutation
 } = apiSlice;
 
 export default apiSlice;

@@ -15,6 +15,8 @@ const schema = yup.object().shape({
   presentAddress: yup.string().required("This required field"),
   permanentAddress: yup.string().required("This is required "),
   currentStatus: yup.string().required("this is required"),
+  department :  yup.string().required("this is required"),
+  jobStatus : yup.string().required("this is required"),
 });
 
 export default schema;

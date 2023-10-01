@@ -1,55 +1,48 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Grid, Button, Box, Typography } from "@mui/material";
-import { useUserPostRegMutation } from "../../Redux/apiSlice/apiSlice";
-import { Link, useNavigate } from "react-router-dom";
-import schema from "./schame";
-import TextFieldCus from "./TextFieldCus";
+import schema from "../schame";
+import TextFieldCus from "../TextFieldCus";
+import SelectField from "../SelectField";
+import Department from "../Department";
+import {
+  useSingleStudentQuery,
+  useUpdateUserMutation,
+} from "../../../Redux/apiSlice/apiSlice";
+import { useDispatch } from "react-redux";
+import { setEditModal } from "../../../Redux/feature/ModalSlice";
 import toast from "react-hot-toast";
-import SelectField from "./SelectField";
-import Department from "./Department";
 
-function Register() {
-  const navigate = useNavigate();
-  const [userReg, { data: userRegData }] = useUserPostRegMutation();
-  console.log(userRegData);
+function UserEdit({ userId }) {
+  const dispatch = useDispatch();
+  const { data: singleData } = useSingleStudentQuery(userId);
+  const [updateData, { data: updateUserData }] = useUpdateUserMutation();
+  const userData = singleData?.data;
   const { handleSubmit, control } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
-    // defaultValues,
+    defaultValues: userData,
   });
+
   // const { fields, append, remove } = useFieldArray({
   //   name: "phoneNumber",
   //   control,
   // });
-  const authReg = (data) => {
-    if (userRegData?.status == "success") {
-      toast.success("successfully ");
-      localStorage.setItem("login", JSON.stringify(data?.data));
-      navigate("/");
-    } else {
-      toast.error("Email Already use ");
-    }
-  };
-  const authRegFail = () => {
-    if (userRegData?.status == "fail") {
-      toast.error("Email Already use ");
-    }
+
+  const updateUser = (update) => {
+    updateData(update);
+    dispatch(setEditModal(false));
+    toast.success("update successfully");
   };
 
   const onSubmit = (data) => {
-    userReg(data);
-    authRegFail();
+    updateUser(data);
   };
-
-  if (userRegData?.status == "success") {
-    authReg(userRegData);
-  }
 
   return (
     <Box mt={2} width="50%" mx="auto">
       <Typography variant="h5" mb={3} textAlign="center">
-        Student Regisation
+        User Update
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
@@ -118,12 +111,9 @@ function Register() {
             <SelectField control={control} label="jobStatus" />
           </Grid>
           <Grid alignItems="center" item xs={12}>
-            <Typography my={3} variant="subtitle1" textAlign="center">
-              I have already account <Link to="/login">Log in</Link>
-            </Typography>
             <Box textAlign="center" mb={3}>
-              <Button type="submit" variant="contained" color="primary">
-                Create
+              <Button type="submit" variant="contained" color="secondary">
+                Update
               </Button>
             </Box>
           </Grid>
@@ -133,4 +123,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default UserEdit;
