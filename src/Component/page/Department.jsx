@@ -21,7 +21,7 @@ const Department = ({ type, control, label }) => {
             <Select
               defaultValue=""
               id="grouped-select"
-              variant="standard"
+              variant="filled"
               {...field}
               color="secondary"
               label="job Status"

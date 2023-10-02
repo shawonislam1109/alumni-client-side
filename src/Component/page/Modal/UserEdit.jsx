@@ -5,17 +5,13 @@ import schema from "../schame";
 import TextFieldCus from "../TextFieldCus";
 import SelectField from "../SelectField";
 import Department from "../Department";
-import {
-  useSingleStudentQuery,
-  useUpdateUserMutation,
-} from "../../../Redux/apiSlice/apiSlice";
+import { useUpdateUserMutation } from "../../../Redux/apiSlice/apiSlice";
 import { useDispatch } from "react-redux";
 import { setEditModal } from "../../../Redux/feature/ModalSlice";
 import toast from "react-hot-toast";
 
-function UserEdit({ userId }) {
+function UserEdit({ singleData }) {
   const dispatch = useDispatch();
-  const { data: singleData } = useSingleStudentQuery(userId);
   const [updateData, { data: updateUserData }] = useUpdateUserMutation();
   const userData = singleData?.data;
   const { handleSubmit, control } = useForm({

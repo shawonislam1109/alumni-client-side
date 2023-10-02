@@ -4,7 +4,8 @@ export const ModalSlice = createSlice({
     name: 'modalSlice',
     initialState: {
         deleteModal : false , 
-        editModal :  false 
+        editModal :  false  , 
+        adminDelete : false 
     },
     reducers : {
         setDeleteModal: (state , {payload}) => {
@@ -12,10 +13,13 @@ export const ModalSlice = createSlice({
         },
         setEditModal  : (state , {payload}) => {
             state.editModal  = payload
+        },
+        setAdminDelete : (state , {payload}) => {
+            state.adminDelete = payload
         }
     }
 })
 
-export const {setDeleteModal , setEditModal} = ModalSlice.actions
+export const {setDeleteModal , setEditModal , setAdminDelete} = ModalSlice.actions
 
 export default ModalSlice.reducer

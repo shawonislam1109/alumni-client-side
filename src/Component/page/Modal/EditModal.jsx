@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditModal } from "../../../Redux/feature/ModalSlice";
 import UserEdit from "./UserEdit";
+import { useSingleStudentQuery } from "../../../Redux/apiSlice/apiSlice";
 
 const style = {
   position: "absolute",
@@ -17,6 +18,7 @@ const style = {
 };
 
 const EditModal = ({ id }) => {
+  const { data: singleData } = useSingleStudentQuery(id);
   const { editModal } = useSelector((state) => state.ModalSlice);
   const dispatch = useDispatch();
 
@@ -29,7 +31,7 @@ const EditModal = ({ id }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <UserEdit userId={id} />
+          <UserEdit singleData={singleData} />
         </Box>
       </Modal>
     </div>

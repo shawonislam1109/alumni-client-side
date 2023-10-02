@@ -37,16 +37,19 @@ const Login = () => {
   if (data?.token) {
     localStorage.setItem("token", data?.token);
     localStorage.setItem("login", JSON.stringify(data?.data));
-    location.reload();
   }
   const authLogin = () => {
     if (data?.status == "success") {
       toast.success("successfully ");
       navigate("/");
     } else {
-      toast.error("Envalid Email");
+      toast.error("Invalid Email ");
     }
   };
+
+  if (data) {
+    authLogin();
+  }
 
   // hook form useState
   const { handleSubmit, control } = useForm({
@@ -55,7 +58,6 @@ const Login = () => {
   });
   const onSubmit = (FormData) => {
     postLogin(FormData);
-    authLogin();
   };
 
   return (

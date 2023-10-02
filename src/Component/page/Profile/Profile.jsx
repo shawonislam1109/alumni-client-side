@@ -10,12 +10,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditModal from "../Modal/EditModal";
 import DeleteModal from "../Modal/DeleteModal";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Profile = () => {
   const { data } = useUserGetDataQuery();
   const loginData = JSON.parse(localStorage.getItem("login"));
+
+  // filtering  authorize user
   const filterLogin = data?.data.find((data) => data?._id === loginData?._id);
   const dispatch = useDispatch();
   const logout = () => {
@@ -23,6 +24,7 @@ const Profile = () => {
     localStorage.clear();
     location.reload();
   };
+
   return (
     <Grid
       justifyContent="center"
@@ -41,6 +43,13 @@ const Profile = () => {
             sx={{ width: { xs: 50, md: 100 }, height: { xs: 50, md: 100 } }}
           />
         </Box>
+        {filterLogin?.role == "admin" && (
+          <Box my={2} textAlign="center">
+            <Button color="success" variant="contained" size="small">
+              admin
+            </Button>
+          </Box>
+        )}
         <Typography mt={2} textAlign="center">
           {filterLogin?.firstName} {filterLogin?.lastName}
         </Typography>

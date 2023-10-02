@@ -13,6 +13,7 @@ import ProfilePrivate from "../Component/PrivateRoute/FrofilePrivate";
 import AddEvent from "../Component/page/dashBoard/Event/AddEvent";
 import Event from "../Component/page/event/Event";
 import DetailsEvent from "../Component/page/event/DetailsEvent";
+import AdminRoute from "../Component/PrivateRoute/AdminRoute";
 
 export const route = createBrowserRouter([
   {
@@ -57,7 +58,11 @@ export const route = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <AdminRoute>
+            <Dashboard />
+          </AdminRoute>
+        ),
         children: [
           {
             path: "/dashboard",

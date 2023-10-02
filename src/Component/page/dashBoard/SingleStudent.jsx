@@ -1,7 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useSingleStudentQuery } from "../../../Redux/apiSlice/apiSlice";
+import {
+  useSingleStudentQuery,
+  useUserGetDataQuery,
+} from "../../../Redux/apiSlice/apiSlice";
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -14,6 +18,7 @@ const SingleStudent = () => {
   const { id } = useParams();
   const { data: singleData, isLoading } = useSingleStudentQuery(id);
   const data = singleData?.data;
+  // loading
   if (isLoading) {
     <Box sx={{ display: "flex" }}>
       <CircularProgress />
@@ -66,6 +71,19 @@ const SingleStudent = () => {
               currentStatus :{data?.currentStatus}
             </Typography>
           </CardContent>
+          {data?.role == "admin" ? (
+            <Box my={2} textAlign="">
+              <Button color="success" variant="contained" size="small">
+                admin
+              </Button>
+            </Box>
+          ) : (
+            <Box my={3}>
+              <Button variant="contained" color="secondary" size="small">
+                create Admin
+              </Button>
+            </Box>
+          )}
         </Card>
       </Grid>
     </Grid>

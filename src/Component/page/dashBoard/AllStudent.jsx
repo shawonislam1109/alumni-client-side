@@ -3,7 +3,6 @@ import { useUserGetDataQuery } from "../../../Redux/apiSlice/apiSlice";
 import {
   Avatar,
   Box,
-  CircularProgress,
   IconButton,
   Paper,
   Table,
@@ -15,80 +14,129 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RateReviewIcon from "@mui/icons-material/RateReview";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setDeleteModal } from "../../../Redux/feature/ModalSlice";
-import DeleteModal from "../Modal/DeleteModal";
+import { useDispatch, useSelector } from "react-redux";
+import { setAdminDelete } from "../../../Redux/feature/ModalSlice";
 import EditModal from "../Modal/EditModal";
 import { Link } from "react-router-dom";
+import SearchFilter from "../Search/SearchFilter";
+import AdminDelete from "../Modal/AdminDelete";
+import { useState } from "react";
 
 export default function AllStudent() {
+  const { data } = useUserGetDataQuery();
+  const [deleteId, setDeleteId] = useState(null);
+  console.log(deleteId);
   const dispatch = useDispatch();
-  const { data, isLoading } = useUserGetDataQuery();
-  useEffect(() => {
-    if (isLoading) {
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-      </Box>;
-    }
-  }, [isLoading]);
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>No</TableCell>
-            <TableCell></TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Phone</TableCell>
-            <TableCell align="left">Department</TableCell>
-            <TableCell align="left">Edit</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data?.data.map((data, index) => (
-            <TableRow
-              key={data._id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="left">{index + 1}</TableCell>
-              <TableCell>
-                <Avatar
-                  src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
-                  sx={{ bgcolor: deepOrange[500] }}
-                >
-                  N
-                </Avatar>
-              </TableCell>
+  const { filterGlobal, filterDepartment, filterStatus } = useSelector(
+    (state) => state.SearchSlice
+  );
+  // store get Data ;
+  let allStudent = data?.data;
+  //  all data mapIng
+  let allStudentMap = allStudent;
 
-              <TableCell component="th" scope="row">
-                {data.firstName}
+  // filter by name
+  if (filterGlobal) {
+    allStudentMap = allStudent.filter((student) =>
+      student.firstName.toLowerCase().startsWith(filterGlobal.toLowerCase())
+    );
+  }
+
+  // filter by department
+  if (filterDepartment) {
+    allStudentMap = allStudent.filter(
+      (student) =>
+        student.department.toLowerCase() == filterDepartment.toLowerCase()
+    );
+  }
+  //  ||
+  // filter by job status
+  if (filterStatus) {
+    allStudentMap = allStudent.filter(
+      (student) => student.jobStatus == filterStatus
+    );
+  }
+  return (
+    <Box>
+      <Box my={2}>
+        <SearchFilter />
+      </Box>
+      <TableContainer component={Paper}>
+        <Table sx={{ width: "100%" }} aria-label="simple table">
+          <TableHead>
+            <TableRow sx={{ bgcolor: "#7B1FA2" }}>
+              <TableCell sx={{ color: "white" }}>No</TableCell>
+              <TableCell></TableCell>
+              <TableCell sx={{ color: "white" }} color="white">
+                Name
               </TableCell>
-              <TableCell align="left">{data.email}</TableCell>
-              <TableCell align="left">{data?.phoneNumber}</TableCell>
-              <TableCell align="left">{data?.department}</TableCell>
-              <TableCell align="left">
-                <Box display="flex">
-                  <IconButton
-                    onClick={() => dispatch(setDeleteModal(true))}
-                    aria-label="delete"
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                  <IconButton>
-                    <Link to={`/singeStudent/${data._id}`}>
-                      <RateReviewIcon />
-                    </Link>
-                  </IconButton>
-                </Box>
-                <DeleteModal id={data._id} />
-                <EditModal id={data._id} />
+              <TableCell sx={{ color: "white" }} align="left">
+                Email
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align="left">
+                Phone
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align="left">
+                Department
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align="left">
+                JObStatus
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align="left">
+                Edit
               </TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {allStudentMap?.map((data, index) => (
+              <TableRow
+                key={data._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="left">{index + 1}</TableCell>
+                <TableCell>
+                  <Avatar
+                    src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+                    sx={{ bgcolor: deepOrange[500] }}
+                  >
+                    N
+                  </Avatar>
+                </TableCell>
+
+                <TableCell component="th" scope="row">
+                  {data.firstName}
+                </TableCell>
+                <TableCell align="left">{data.email}</TableCell>
+                <TableCell align="left">{data?.phoneNumber}</TableCell>
+                <TableCell align="left">{data?.department}</TableCell>
+                <TableCell align="left">
+                  {data?.jobStatus ? "Yes" : "No"}
+                </TableCell>
+                <TableCell align="left">
+                  <Box display="flex">
+                    <IconButton
+                      onClick={() => {
+                        setDeleteId(data._id);
+                        dispatch(setAdminDelete(true));
+                      }}
+                      aria-label="delete"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton>
+                      <Link to={`/singeStudent/${data._id}`}>
+                        <RateReviewIcon />
+                      </Link>
+                    </IconButton>
+                  </Box>
+                  <EditModal id={data._id} />
+                  <AdminDelete deleteId={deleteId} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }

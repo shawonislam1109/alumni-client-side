@@ -162,14 +162,16 @@ export default function NavSection(props) {
           </Box>
         )}
 
-        <Box>
-          <Link
-            to="/dashboard"
-            style={{ textDecoration: "none", color: "burlywood" }}
-          >
-            DashBoard
-          </Link>
-        </Box>
+        {filterLogin?.role == "admin" && (
+          <Box>
+            <Link
+              to="/dashboard"
+              style={{ textDecoration: "none", color: "burlywood" }}
+            >
+              DashBoard
+            </Link>
+          </Box>
+        )}
       </Stack>
     </Box>
   );

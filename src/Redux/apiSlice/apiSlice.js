@@ -15,6 +15,7 @@ const apiSlice = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ['user']
     }),
 
     // Regis user Post

@@ -2,10 +2,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { setDeleteModal } from "../../../Redux/feature/ModalSlice";
+import {
+  setAdminDelete,
+  setDeleteModal,
+} from "../../../Redux/feature/ModalSlice";
 import { useUserDeleteMutation } from "../../../Redux/apiSlice/apiSlice";
 import { Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const style = {
@@ -19,33 +21,33 @@ const style = {
   p: 4,
 };
 
-const DeleteModal = ({ id }) => {
+const AdminDelete = ({ deleteId }) => {
   const dispatch = useDispatch();
   const [deleted] = useUserDeleteMutation();
+
   const deletedData = (id) => {
     deleted(id);
-    dispatch(setDeleteModal(false));
+    dispatch(setAdminDelete(false));
     toast.success("Deleted success");
-    localStorage.clear();
   };
 
-  const { deleteModal } = useSelector((state) => state.ModalSlice);
+  const { adminDelete } = useSelector((state) => state.ModalSlice);
   return (
     <div>
       <Modal
-        open={deleteModal}
-        onClose={() => dispatch(setDeleteModal(false))}
+        open={adminDelete}
+        onClose={() => dispatch(setAdminDelete(false))}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Do you want to delete it , If you want to delete it plz press the
-            delete button
+            delete button adminModal
           </Typography>
           <Box display="flex" justifyContent="end">
             <Button
-              onClick={() => deletedData(id)}
+              onClick={() => deletedData(deleteId)}
               color="error"
               variant="contained"
               size="small"
@@ -58,4 +60,4 @@ const DeleteModal = ({ id }) => {
     </div>
   );
 };
-export default DeleteModal;
+export default AdminDelete;
