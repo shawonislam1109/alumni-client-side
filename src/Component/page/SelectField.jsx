@@ -19,9 +19,10 @@ const SelectField = ({ type, control, label }) => {
               Job Status
             </InputLabel>
             <Select
+              color="secondary"
               defaultValue=""
               id="grouped-select"
-              variant="standard"
+              variant="filled"
               {...field}
               label="job Status"
               error={!!error}

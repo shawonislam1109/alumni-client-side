@@ -2,6 +2,7 @@ import { Box, Button, Container } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import AddCardIcon from "@mui/icons-material/AddCard";
+import EventIcon from "@mui/icons-material/Event";
 
 const Dashboard = () => {
   return (
@@ -19,6 +20,18 @@ const Dashboard = () => {
                 }}
               >
                 All Student
+              </Link>
+            </Button>
+            <Button size="small" startIcon={<EventIcon />} variant="caption">
+              <Link
+                to="/dashboard/event"
+                style={{
+                  textDecoration: "none",
+                  fontSize: "1rem",
+                  color: "GrayText",
+                }}
+              >
+                Add Event
               </Link>
             </Button>
             <Button size="small" startIcon={<AddCardIcon />} variant="caption">

@@ -142,6 +142,15 @@ export default function NavSection(props) {
           </Link>
         </Box>
 
+        <Box>
+          <Link
+            to="/event"
+            style={{ textDecoration: "none", color: "burlywood" }}
+          >
+            Event
+          </Link>
+        </Box>
+
         {!filterLogin && (
           <Box>
             <Link

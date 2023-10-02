@@ -11,9 +11,10 @@ const TextFieldCus = ({ type, control, label }) => {
           {...field}
           type={type}
           label={label}
-          variant="standard"
+          variant="filled"
           fullWidth
           size="small"
+          color="secondary"
           error={!!error}
           helperText={error?.message}
         />

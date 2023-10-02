@@ -42,7 +42,7 @@ export default function AllStudent() {
             <TableCell>Name</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Phone</TableCell>
-            <TableCell align="left">Status</TableCell>
+            <TableCell align="left">Department</TableCell>
             <TableCell align="left">Edit</TableCell>
           </TableRow>
         </TableHead>
@@ -67,7 +67,7 @@ export default function AllStudent() {
               </TableCell>
               <TableCell align="left">{data.email}</TableCell>
               <TableCell align="left">{data?.phoneNumber}</TableCell>
-              <TableCell align="left">{data.currentStatus}</TableCell>
+              <TableCell align="left">{data?.department}</TableCell>
               <TableCell align="left">
                 <Box display="flex">
                   <IconButton

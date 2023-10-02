@@ -6,6 +6,8 @@ const apiSlice = createApi({
     baseUrl: "http://localhost:9898",
   }),
   tagTypes : ['user'],
+
+  // Login user Post
   endpoints: (builder) => ({
     userPostLogIn: builder.mutation({
       query: (data) => ({
@@ -14,6 +16,8 @@ const apiSlice = createApi({
         body: data,
       }),
     }),
+
+    // Regis user Post
     userPostReg: builder.mutation({
       query: (data) => ({
         url: "/registration",
@@ -22,17 +26,22 @@ const apiSlice = createApi({
       }),
       invalidatesTags: ['user']
     }),
+
+    // get user regis data
     userGetData : builder.query({
       query: () => ({
         url: '/getRegisation',
       }),
       providesTags: ['user']
     }),
+    // get user by id data
     singleStudent : builder.query({
       query: (id) => ({
         url : `/getUserById/${id}`,
       })
     }),
+
+    // delete user data
     userDelete : builder.mutation({
       query: (id) => ({
         url: `/deleteById/${id}`,
@@ -40,6 +49,7 @@ const apiSlice = createApi({
       }),
       invalidatesTags : ['user']
     }),
+    // Update user data
     updateUser : builder.mutation({
       query : (data)  => ({
         url : `/updateUser/${data._id}`,
@@ -47,6 +57,27 @@ const apiSlice = createApi({
         body : data
       }),
       invalidatesTags : ['user']
+    }),
+
+    // Event data operation
+
+    // Event post Data 
+    eventPostData : builder.mutation({
+      query : (data) => ({
+        url : '/event',
+        method: 'post',
+        body : data
+      })
+    }) ,
+    eventDataGet : builder.query({
+      query: () => ({
+        url : '/eventAll'
+      })
+    }),
+    singleEventData : builder.query({
+      query : (id) => ({
+        url : `/singleEvent/${id}`
+      })
     })
   }),
   
@@ -58,7 +89,10 @@ export const {
   useUserGetDataQuery,
   useSingleStudentQuery,
   useUserDeleteMutation,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useEventPostDataMutation,
+  useEventDataGetQuery,
+  useSingleEventDataQuery
 } = apiSlice;
 
 export default apiSlice;

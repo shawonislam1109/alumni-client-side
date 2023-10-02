@@ -10,6 +10,9 @@ import PrivateRoute from "../Component/PrivateRoute/PrivateRoute";
 import SingleStudent from "../Component/page/dashBoard/SingleStudent";
 import Profile from "../Component/page/Profile/Profile";
 import ProfilePrivate from "../Component/PrivateRoute/FrofilePrivate";
+import AddEvent from "../Component/page/dashBoard/Event/AddEvent";
+import Event from "../Component/page/event/Event";
+import DetailsEvent from "../Component/page/event/DetailsEvent";
 
 export const route = createBrowserRouter([
   {
@@ -45,6 +48,14 @@ export const route = createBrowserRouter([
         ),
       },
       {
+        path: "/detailsEvent/:id",
+        element: <DetailsEvent />,
+      },
+      {
+        path: "/event",
+        element: <Event />,
+      },
+      {
         path: "/dashboard",
         element: <Dashboard />,
         children: [
@@ -55,6 +66,10 @@ export const route = createBrowserRouter([
           {
             path: "/dashboard/payment",
             element: <Payment />,
+          },
+          {
+            path: "/dashboard/event",
+            element: <AddEvent />,
           },
         ],
       },

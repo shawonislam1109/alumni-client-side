@@ -23,6 +23,7 @@ const Department = ({ type, control, label }) => {
               id="grouped-select"
               variant="standard"
               {...field}
+              color="secondary"
               label="job Status"
               error={!!error}
               fullWidth
