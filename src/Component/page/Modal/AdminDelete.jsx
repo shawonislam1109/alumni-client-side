@@ -2,10 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setAdminDelete,
-  setDeleteModal,
-} from "../../../Redux/feature/ModalSlice";
+import { setAdminDelete } from "../../../Redux/feature/ModalSlice";
 import { useUserDeleteMutation } from "../../../Redux/apiSlice/apiSlice";
 import { Button } from "@mui/material";
 import toast from "react-hot-toast";

@@ -43,7 +43,7 @@ const Home = () => {
   }
   //  ||
   // filter by job status
-  if (filterStatus) {
+  if (filterStatus || filterStatus === false) {
     allStudentMap = allStudent.filter(
       (student) => student.jobStatus == filterStatus
     );

@@ -18,6 +18,15 @@ const SingleStudent = () => {
   const { id } = useParams();
   const { data: singleData, isLoading } = useSingleStudentQuery(id);
   const data = singleData?.data;
+
+  //  check authorize admin
+  const { data: allData } = useUserGetDataQuery();
+  const loginData = JSON.parse(localStorage.getItem("login"));
+  const filterLogin = allData?.data.find(
+    (data) => data?._id === loginData?._id
+  );
+
+  console.log(filterLogin);
   // loading
   if (isLoading) {
     <Box sx={{ display: "flex" }}>
@@ -71,17 +80,22 @@ const SingleStudent = () => {
               currentStatus :{data?.currentStatus}
             </Typography>
           </CardContent>
-          {data?.role == "admin" ? (
-            <Box my={2} textAlign="">
-              <Button color="success" variant="contained" size="small">
-                admin
-              </Button>
-            </Box>
-          ) : (
-            <Box my={3}>
-              <Button variant="contained" color="secondary" size="small">
-                create Admin
-              </Button>
+
+          {filterLogin?.role == "admin" && (
+            <Box>
+              {data?.role == "admin" ? (
+                <Box my={2} textAlign="">
+                  <Button color="success" variant="contained" size="small">
+                    admin
+                  </Button>
+                </Box>
+              ) : (
+                <Box my={3}>
+                  <Button variant="contained" color="secondary" size="small">
+                    create Admin
+                  </Button>
+                </Box>
+              )}
             </Box>
           )}
         </Card>
