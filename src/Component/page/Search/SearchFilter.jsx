@@ -36,7 +36,7 @@ const SearchFilter = () => {
           variant="filled"
           size="small"
           color="secondary"
-          placeholder="Search by name"
+          placeholder="Search...."
           onChange={(e) => setSearchText(e.target.value)}
           InputProps={{
             startAdornment: (

@@ -22,12 +22,15 @@ function UserEdit({ singleData }) {
   // update user mutation
   const [updateData, { data: updateUserData }] = useUpdateUserMutation();
   const userData = singleData?.data;
-
+  const defaultValueIs = JSON.stringify(userData);
+  const setDefaultValue = JSON.parse(defaultValueIs);
+  setDefaultValue["thumbnail"] = null;
+  // userData.thumbnail = "";
   // handle userForm Data
   const { handleSubmit, control } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
-    defaultValues: userData,
+    defaultValues: setDefaultValue,
   });
 
   //    image Upload cloud
@@ -59,8 +62,10 @@ function UserEdit({ singleData }) {
   // handle submit updateData
   const onSubmit = (data) => {
     data["thumbnail"] = thumbnails;
-    // updateUser(data);
-    console.log(data);
+    if (!data["thumbnail"]) {
+      setDefaultValue["thumbnail"] = userData["thumbnail"];
+    }
+    updateUser(data);
   };
 
   //  call fun upload image
