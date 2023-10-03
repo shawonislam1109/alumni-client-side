@@ -25,7 +25,6 @@ import { useState } from "react";
 export default function AllStudent() {
   const { data } = useUserGetDataQuery();
   const [deleteId, setDeleteId] = useState(null);
-  console.log(deleteId);
   const dispatch = useDispatch();
   const { filterGlobal, filterDepartment, filterStatus } = useSelector(
     (state) => state.SearchSlice
@@ -35,10 +34,17 @@ export default function AllStudent() {
   //  all data mapIng
   let allStudentMap = allStudent;
 
-  // filter by name
+  // filter by global
   if (filterGlobal) {
-    allStudentMap = allStudent.filter((student) =>
-      student.firstName.toLowerCase().startsWith(filterGlobal.toLowerCase())
+    allStudentMap = allStudent.filter(
+      (student) =>
+        student.firstName
+          .toLowerCase()
+          .startsWith(filterGlobal.toLowerCase()) ||
+        student.phoneNumber
+          .toLowerCase()
+          .startsWith(filterGlobal.toLowerCase()) ||
+        student.email.toLowerCase().startsWith(filterGlobal.toLowerCase())
     );
   }
 
@@ -96,7 +102,11 @@ export default function AllStudent() {
                 <TableCell align="left">{index + 1}</TableCell>
                 <TableCell>
                   <Avatar
-                    src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+                    src={
+                      data?.thumbnail
+                        ? data.thumbnail
+                        : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+                    }
                     sx={{ bgcolor: deepOrange[500] }}
                   >
                     N
@@ -115,6 +125,7 @@ export default function AllStudent() {
                 <TableCell align="left">
                   <Box display="flex">
                     <IconButton
+                      color="error"
                       onClick={() => {
                         setDeleteId(data._id);
                         dispatch(setAdminDelete(true));
@@ -123,11 +134,11 @@ export default function AllStudent() {
                     >
                       <DeleteIcon />
                     </IconButton>
-                    <IconButton>
-                      <Link to={`/singeStudent/${data._id}`}>
+                    <Link to={`/singeStudent/${data._id}`}>
+                      <IconButton color="secondary">
                         <RateReviewIcon />
-                      </Link>
-                    </IconButton>
+                      </IconButton>
+                    </Link>
                   </Box>
                   <EditModal id={data._id} />
                   <AdminDelete deleteId={deleteId} />

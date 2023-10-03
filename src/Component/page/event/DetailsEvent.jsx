@@ -1,10 +1,15 @@
-import { Link, useParams } from "react-router-dom";
-import { useSingleEventDataQuery } from "../../../Redux/apiSlice/apiSlice";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  useEventDeleteMutation,
+  useSingleEventDataQuery,
+  useUserGetDataQuery,
+} from "../../../Redux/apiSlice/apiSlice";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import SchoolIcon from "@mui/icons-material/School";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   Button,
@@ -14,13 +19,35 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import toast from "react-hot-toast";
 
 const DetailsEvent = () => {
   const { id } = useParams();
-  console.log(id);
   const { data } = useSingleEventDataQuery(id);
+  const navigate = useNavigate();
   const details = data?.data;
-  console.log(details);
+
+  //  check authorize admin
+  const { data: allData } = useUserGetDataQuery();
+  const loginData = JSON.parse(localStorage.getItem("login"));
+  const filterLogin = allData?.data.find(
+    (data) => data?._id === loginData?._id
+  );
+
+  //  event delete mutation
+  const [deleteFn, { isError }] = useEventDeleteMutation();
+
+  // Event delete handle
+  const eventDeleteHandle = (eventId) => {
+    deleteFn(eventId);
+    if (isError) {
+      toast.error("delete no success");
+    } else {
+      toast.success("deleted success");
+      navigate("/event");
+    }
+  };
+
   return (
     <Box mt={3} display="flex" justifyContent="center">
       <Card sx={{ maxWidth: { xs: 330, md: 400 } }}>
@@ -71,6 +98,18 @@ const DetailsEvent = () => {
               {details?.fee}
             </Button>
           </Link>
+          {filterLogin?.role == "admin" && (
+            <Button
+              onClick={() => eventDeleteHandle(id)}
+              color="error"
+              sx={{ ml: 2 }}
+              size="small"
+              variant="contained"
+              startIcon={<DeleteIcon />}
+            >
+              Delete
+            </Button>
+          )}
         </CardActions>
       </Card>
     </Box>

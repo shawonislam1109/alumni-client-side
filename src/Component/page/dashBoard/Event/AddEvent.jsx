@@ -43,9 +43,11 @@ const AddEvent = () => {
     data["thumbnail"] = thumbnails;
     eventPost(data);
   };
+
   useEffect(() => {
     convertBase64();
   }, [image]);
+
   useEffect(() => {
     if (eventData?.data.location) {
       toast.success("event added successfully");

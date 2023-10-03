@@ -1,11 +1,14 @@
 import { Outlet } from "react-router-dom";
 import NavSection from "../navbar/ResNav";
+import { Box } from "@mui/material";
 
 const Main = () => {
   return (
     <div>
       <NavSection />
-      <Outlet />
+      <Box mt={9}>
+        <Outlet />
+      </Box>
     </div>
   );
 };

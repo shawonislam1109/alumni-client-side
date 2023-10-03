@@ -39,7 +39,11 @@ const Profile = () => {
         <Box display="flex" justifyContent="center">
           <Avatar
             alt="Remy Sharp"
-            src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?q=10&h=200"
+            src={
+              filterLogin?.thumbnail
+                ? filterLogin.thumbnail
+                : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+            }
             sx={{ width: { xs: 50, md: 100 }, height: { xs: 50, md: 100 } }}
           />
         </Box>

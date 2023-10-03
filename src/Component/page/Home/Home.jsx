@@ -69,7 +69,11 @@ const Home = () => {
                   <CardMedia
                     component="img"
                     sx={{ height: 220, width: 200 }}
-                    image="https://publichealth.uga.edu/wp-content/uploads/2020/01/Thomas-Cameron_Student_Profile.jpg"
+                    image={
+                      data?.thumbnail
+                        ? data.thumbnail
+                        : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+                    }
                     title="green iguana"
                     alt="Live from space album cover"
                   />
@@ -114,13 +118,10 @@ const Home = () => {
                       </Typography>
 
                       <Typography variant="body2" color="text.secondary">
-                        presentAddress :{data.presentAddress}
+                        Department :{data.department}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        permanentAddress :{data.permanentAddress}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        previousJobLocation :{data?.previousJobLocation}
+                        JobStatus :{data.jobStatus ? "Yes" : "NO"}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         currentStatus :{data?.currentStatus}

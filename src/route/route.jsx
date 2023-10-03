@@ -14,6 +14,7 @@ import AddEvent from "../Component/page/dashBoard/Event/AddEvent";
 import Event from "../Component/page/event/Event";
 import DetailsEvent from "../Component/page/event/DetailsEvent";
 import AdminRoute from "../Component/PrivateRoute/AdminRoute";
+import AboutPage from "../Component/page/About/About";
 
 export const route = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ export const route = createBrowserRouter([
         element: <Event />,
       },
       {
+        path: "/dashboard/payment",
+        element: <Payment />,
+      },
+      {
+        path: "/aboutPage",
+        element: <AboutPage />,
+      },
+      {
         path: "/dashboard",
         element: (
           <AdminRoute>
@@ -67,10 +76,6 @@ export const route = createBrowserRouter([
           {
             path: "/dashboard",
             element: <AllStudent />,
-          },
-          {
-            path: "/dashboard/payment",
-            element: <Payment />,
           },
           {
             path: "/dashboard/event",

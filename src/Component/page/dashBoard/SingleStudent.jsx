@@ -47,7 +47,11 @@ const SingleStudent = () => {
         <Card>
           <CardMedia
             sx={{ height: 140 }}
-            image="https://publichealth.uga.edu/wp-content/uploads/2020/01/Thomas-Cameron_Student_Profile.jpg"
+            image={
+              data?.thumbnail
+                ? data.thumbnail
+                : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+            }
             title="green iguana"
           />
           <CardContent>
@@ -62,7 +66,12 @@ const SingleStudent = () => {
             <Typography variant="body2" color="text.secondary">
               Phone :{data?.phoneNumber}
             </Typography>
-
+            <Typography variant="body2" color="text.secondary">
+              Department :{data?.department}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              JobStatus :{data?.jobStatus ? "Yes" : "NO"}
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               presentAddress :{data?.presentAddress}
             </Typography>

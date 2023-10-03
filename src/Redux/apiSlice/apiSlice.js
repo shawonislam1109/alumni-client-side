@@ -5,7 +5,7 @@ const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:9898",
   }),
-  tagTypes : ['user'],
+  tagTypes : ['user' , 'event'],
 
   // Login user Post
   endpoints: (builder) => ({
@@ -60,6 +60,8 @@ const apiSlice = createApi({
       invalidatesTags : ['user']
     }),
 
+
+
     // Event data operation
 
     // Event post Data 
@@ -68,17 +70,31 @@ const apiSlice = createApi({
         url : '/event',
         method: 'post',
         body : data
-      })
+      }),
+      invalidatesTags :  ['event']
     }) ,
+    // event all data get
     eventDataGet : builder.query({
       query: () => ({
         url : '/eventAll'
-      })
+      }),
+      providesTags : ['event']
     }),
+    //  singeEvent data Get
     singleEventData : builder.query({
       query : (id) => ({
         url : `/singleEvent/${id}`
-      })
+      }),
+      invalidatesTags: ['event']
+    }),
+
+    // singleEvent delete by admin 
+    eventDelete : builder.mutation({
+      query :(id) => ({
+        url :`/deleteEvent/${id}`,
+        method : 'delete'
+      }),
+      invalidatesTags : ['event']
     })
   }),
   
@@ -93,7 +109,8 @@ export const {
   useUpdateUserMutation,
   useEventPostDataMutation,
   useEventDataGetQuery,
-  useSingleEventDataQuery
+  useSingleEventDataQuery,
+  useEventDeleteMutation,
 } = apiSlice;
 
 export default apiSlice;

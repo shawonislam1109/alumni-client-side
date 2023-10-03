@@ -31,34 +31,48 @@ const schema = Yup.object({
 
 const Login = () => {
   const navigate = useNavigate();
-  const [postLogin, { data }] = useUserPostLogInMutation();
+  const [postLogin, { data, isError }] = useUserPostLogInMutation();
 
   // login data set in localStore
   if (data?.token) {
     localStorage.setItem("token", data?.token);
     localStorage.setItem("login", JSON.stringify(data?.data));
   }
-  const authLogin = () => {
+
+  // toaster
+  const authReg = (data) => {
     if (data?.status == "success") {
-      toast.success("successfully ");
+      toast.success("successfully Login");
+      localStorage.setItem("login", JSON.stringify(data?.data));
       navigate("/");
     } else {
-      toast.error("Invalid Email ");
+      toast.error("someThing went wrong ");
     }
   };
 
-  if (data) {
-    authLogin();
-  }
-
-  // hook form useState
+  // userFrom react-hook-from
   const { handleSubmit, control } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
+
+  // handle submit
   const onSubmit = (FormData) => {
     postLogin(FormData);
+    authRegFail();
   };
+
+  //  error toast
+  const authRegFail = () => {
+    if (isError) {
+      toast.error("someThing went wrong");
+    }
+  };
+
+  // success toast
+  if (data?.status == "success") {
+    authReg(data);
+  }
 
   return (
     <Box>

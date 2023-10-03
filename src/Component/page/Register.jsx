@@ -8,20 +8,26 @@ import TextFieldCus from "./TextFieldCus";
 import toast from "react-hot-toast";
 import SelectField from "./SelectField";
 import Department from "./Department";
+import ImageUpload from "./dashBoard/Event/ImageUpload";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function Register() {
+  // upload image handle
+  const [image, setImage] = useState(null);
+  const [thumbnails, setSelectedImage] = useState(null);
+
   const navigate = useNavigate();
-  const [userReg, { data: userRegData }] = useUserPostRegMutation();
-  console.log(userRegData);
+  // post apiSlice reg Data
+  const [userReg, { data: userRegData, isError }] = useUserPostRegMutation();
+
+  // react hook from handle
   const { handleSubmit, control } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
-    // defaultValues,
   });
-  // const { fields, append, remove } = useFieldArray({
-  //   name: "phoneNumber",
-  //   control,
-  // });
+
+  // check authorize with toast
   const authReg = (data) => {
     if (userRegData?.status == "success") {
       toast.success("successfully ");
@@ -31,20 +37,49 @@ function Register() {
       toast.error("Email Already use ");
     }
   };
-  const authRegFail = () => {
-    if (userRegData?.status == "fail") {
-      toast.error("Email Already use ");
-    }
+
+  //    image Upload cloud
+  const uploadImage = () => {
+    const data = new FormData();
+    data.append("file", image?.target?.files[0]);
+    data.append("upload_preset", "qii754l9");
+    data.append("cloud_name", "dxatljtkl");
+    fetch("https://api.cloudinary.com/v1_1/dxatljtkl/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSelectedImage(data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
+  // handle submit
   const onSubmit = (data) => {
+    data["thumbnail"] = thumbnails;
     userReg(data);
     authRegFail();
   };
 
+  // check authorize with toast
+  const authRegFail = () => {
+    if (isError) {
+      toast.error("Email Already use ");
+    }
+  };
+
+  // check authorize with toast
   if (userRegData?.status == "success") {
     authReg(userRegData);
   }
+
+  //  call fun upload image
+  useEffect(() => {
+    uploadImage();
+  }, [image]);
 
   return (
     <Box mt={2} width="50%" mx="auto">
@@ -69,26 +104,11 @@ function Register() {
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="email" />
           </Grid>
-          {/* {fields?.map((field, index) => {
-            return (
-              <>
 
-              </>
-            );
-          })} */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="phoneNumber" />
           </Grid>
 
-          {/* <Grid item xs={12} sm={12} md={6}>
-            <Button
-              size="small"
-              color="success"
-              variant="contained"
-              onClick={() => append({ phNumber: " " })}>
-              Phone +
-            </Button>
-          </Grid> */}
           {/* presentAddress */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="presentAddress" />
@@ -117,6 +137,16 @@ function Register() {
           <Grid item xs={12} sm={12} md={6}>
             <SelectField control={control} label="jobStatus" />
           </Grid>
+          {/* imageUpload */}
+          <Grid item xs={12} sm={12} md={6}>
+            <ImageUpload
+              setImage={setImage}
+              control={control}
+              label="thumbnail"
+            />
+          </Grid>
+
+          {/*  */}
           <Grid alignItems="center" item xs={12}>
             <Typography my={3} variant="subtitle1" textAlign="center">
               I have already account <Link to="/login">Log in</Link>
