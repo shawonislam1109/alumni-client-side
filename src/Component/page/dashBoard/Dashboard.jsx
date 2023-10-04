@@ -4,10 +4,19 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import EventIcon from "@mui/icons-material/Event";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import { useState } from "react";
+import { useUserGetDataQuery } from "../../../Redux/apiSlice/apiSlice";
 
 const Dashboard = () => {
-  const [active, setActive] = useState("student");
+  const { data: allData } = useUserGetDataQuery();
+  const loginData = JSON.parse(localStorage.getItem("login"));
+  const filterLogin = allData?.data.find(
+    (data) => data?._id === loginData?._id
+  );
+
+  const [active, setActive] = useState("currStudent");
   const activeStatus = {
     borderLeft: "3px solid #7B1FA2",
   };
@@ -22,42 +31,115 @@ const Dashboard = () => {
   // dashBoard menu
   const dashBoardMenu = (
     <Box mt={3} ml={3}>
-      <Button
-        onClick={() => setActive("student")}
-        sx={active == "student" ? activeStatus : ""}
-        size="small"
-        startIcon={<AddBoxIcon />}
-        variant="caption"
-      >
-        <Link
-          to="/dashboard"
-          style={{
-            textDecoration: "none",
-            fontSize: "1rem",
-            color: "GrayText",
-          }}
+      <Box>
+        {filterLogin?.role == "admin" && (
+          <Button
+            onClick={() => setActive("student")}
+            sx={active == "student" ? activeStatus : ""}
+            size="small"
+            startIcon={<AddBoxIcon />}
+            variant="caption"
+          >
+            <Link
+              to="/dashboard/allStudent"
+              style={{
+                textDecoration: "none",
+                fontSize: "1rem",
+                color: "GrayText",
+              }}
+            >
+              All Student
+            </Link>
+          </Button>
+        )}
+      </Box>
+
+      <Box>
+        {filterLogin?.role == "admin" && (
+          <Button
+            onClick={() => setActive("event")}
+            sx={active == "event" ? activeStatus : ""}
+            size="small"
+            startIcon={<EventIcon />}
+            variant="caption"
+          >
+            <Link
+              to="/dashboard/event"
+              style={{
+                textDecoration: "none",
+                fontSize: "1rem",
+                color: "GrayText",
+              }}
+            >
+              Add Event
+            </Link>
+          </Button>
+        )}
+      </Box>
+      <Box>
+        {filterLogin?.role == "admin" && (
+          <Button
+            onClick={() => setActive("Admin")}
+            sx={active == "Admin" ? activeStatus : ""}
+            size="small"
+            startIcon={<AdminPanelSettingsIcon />}
+            variant="caption"
+          >
+            <Link
+              to="/dashboard/admin"
+              style={{
+                textDecoration: "none",
+                fontSize: "1rem",
+                color: "GrayText",
+              }}
+            >
+              All Admin
+            </Link>
+          </Button>
+        )}
+      </Box>
+
+      <Box>
+        <Button
+          onClick={() => setActive("alumni")}
+          sx={active == "alumni" ? activeStatus : ""}
+          size="small"
+          startIcon={<HistoryEduIcon />}
+          variant="caption"
         >
-          All Student
-        </Link>
-      </Button>
-      <Button
-        onClick={() => setActive("event")}
-        sx={active == "event" ? activeStatus : ""}
-        size="small"
-        startIcon={<EventIcon />}
-        variant="caption"
-      >
-        <Link
-          to="/dashboard/event"
-          style={{
-            textDecoration: "none",
-            fontSize: "1rem",
-            color: "GrayText",
-          }}
+          <Link
+            to="/dashboard/alumni"
+            style={{
+              textDecoration: "none",
+              fontSize: "1rem",
+              color: "GrayText",
+            }}
+          >
+            All Alumni
+          </Link>
+        </Button>
+      </Box>
+
+      <Box>
+        <Button
+          onClick={() => setActive("currStudent")}
+          sx={active == "currStudent" ? activeStatus : ""}
+          size="small"
+          startIcon={<HistoryEduIcon />}
+          variant="caption"
         >
-          Add Event
-        </Link>
-      </Button>
+          <Link
+            to="/dashboard"
+            style={{
+              textDecoration: "none",
+              fontSize: "1rem",
+              color: "GrayText",
+            }}
+          >
+            Curr Student
+          </Link>
+        </Button>
+      </Box>
     </Box>
   );
 
@@ -72,7 +154,7 @@ const Dashboard = () => {
       >
         {dashBoardMenu}
       </Box>
-      <Box display={{ xs: "block", md: "none" }}>
+      <Box width={-20} display={{ xs: "block", md: "none" }}>
         <Button onClick={toggleDrawer}>
           {isOpen ? <CloseIcon /> : <MenuIcon />}
         </Button>

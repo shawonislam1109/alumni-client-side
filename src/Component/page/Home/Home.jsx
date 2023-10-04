@@ -11,12 +11,11 @@ import {
 import { useUserGetDataQuery } from "../../../Redux/apiSlice/apiSlice";
 import { Link } from "react-router-dom";
 import SearchFilter from "../Search/SearchFilter";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import SchoolIcon from "@mui/icons-material/School";
 import { useSelector } from "react-redux";
 const Home = () => {
   const { data } = useUserGetDataQuery();
+
+  // user authorize check
   const loginData = JSON.parse(localStorage.getItem("login"));
   const filterLogin = data?.data.find((data) => data?._id === loginData?._id);
   const { filterGlobal, filterDepartment, filterStatus } = useSelector(
@@ -24,6 +23,7 @@ const Home = () => {
   );
   // store get Data ;
   let allStudent = data?.data;
+
   //  all data mapIng
   let allStudentMap = allStudent;
 

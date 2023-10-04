@@ -15,6 +15,9 @@ import Event from "../Component/page/event/Event";
 import DetailsEvent from "../Component/page/event/DetailsEvent";
 import AdminRoute from "../Component/PrivateRoute/AdminRoute";
 import AboutPage from "../Component/page/About/About";
+import AllAdmin from "../Component/page/dashBoard/AllAdmin";
+import AlumniStudent from "../Component/page/dashBoard/AlumniStudent";
+import CurrentStudent from "../Component/page/dashBoard/CurrentStudent";
 
 export const route = createBrowserRouter([
   {
@@ -67,19 +70,39 @@ export const route = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: (
-          <AdminRoute>
-            <Dashboard />
-          </AdminRoute>
-        ),
+        element: <Dashboard />,
         children: [
           {
-            path: "/dashboard",
-            element: <AllStudent />,
+            path: "/dashboard/allStudent",
+            element: (
+              <AdminRoute>
+                <AllStudent />
+              </AdminRoute>
+            ),
           },
           {
             path: "/dashboard/event",
-            element: <AddEvent />,
+            element: (
+              <AdminRoute>
+                <AddEvent />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/admin",
+            element: (
+              <AdminRoute>
+                <AllAdmin />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/alumni",
+            element: <AlumniStudent />,
+          },
+          {
+            path: "/dashboard",
+            element: <CurrentStudent />,
           },
         ],
       },

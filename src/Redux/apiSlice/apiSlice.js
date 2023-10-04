@@ -39,7 +39,8 @@ const apiSlice = createApi({
     singleStudent : builder.query({
       query: (id) => ({
         url : `/getUserById/${id}`,
-      })
+      }),
+      invalidatesTags : ['user']
     }),
 
     // delete user data
@@ -95,6 +96,16 @@ const apiSlice = createApi({
         method : 'delete'
       }),
       invalidatesTags : ['event']
+    }),
+
+    //  create admin by admin 
+    createAdmin : builder.mutation({
+      query : (id) => ({
+        url : `/updateUser/${id}`,
+        method : 'put',
+        body : {role : 'admin'}
+      }),
+      invalidatesTags : ['user']
     })
   }),
   
@@ -111,6 +122,7 @@ export const {
   useEventDataGetQuery,
   useSingleEventDataQuery,
   useEventDeleteMutation,
+  useCreateAdminMutation,
 } = apiSlice;
 
 export default apiSlice;

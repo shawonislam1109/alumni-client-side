@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
+  useCreateAdminMutation,
   useSingleStudentQuery,
   useUserGetDataQuery,
 } from "../../../Redux/apiSlice/apiSlice";
@@ -13,12 +14,17 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const SingleStudent = () => {
   const { id } = useParams();
   const { data: singleData, isLoading } = useSingleStudentQuery(id);
   const data = singleData?.data;
 
+  // create admin action in apiSlice
+
+  const [createAminData, { data: createAdminData }] = useCreateAdminMutation();
   //  check authorize admin
   const { data: allData } = useUserGetDataQuery();
   const loginData = JSON.parse(localStorage.getItem("login"));
@@ -26,13 +32,23 @@ const SingleStudent = () => {
     (data) => data?._id === loginData?._id
   );
 
-  console.log(filterLogin);
-  // loading
+  // crateAdmin Handle
   if (isLoading) {
     <Box sx={{ display: "flex" }}>
       <CircularProgress />
     </Box>;
   }
+
+  const createAdmin = () => {
+    createAminData(id);
+  };
+
+  if (createAdminData?.status == "success") {
+    toast.success("admin add success");
+    location.reload();
+  }
+  console.log(createAdminData);
+
   return (
     <Grid
       justifyContent="center"
@@ -100,7 +116,12 @@ const SingleStudent = () => {
                 </Box>
               ) : (
                 <Box my={3}>
-                  <Button variant="contained" color="secondary" size="small">
+                  <Button
+                    onClick={createAdmin}
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                  >
                     create Admin
                   </Button>
                 </Box>

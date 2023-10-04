@@ -25,7 +25,6 @@ function UserEdit({ singleData }) {
   const defaultValueIs = JSON.stringify(userData);
   const setDefaultValue = JSON.parse(defaultValueIs);
   setDefaultValue["thumbnail"] = null;
-  // userData.thumbnail = "";
   // handle userForm Data
   const { handleSubmit, control } = useForm({
     mode: "onChange",
@@ -59,19 +58,25 @@ function UserEdit({ singleData }) {
     toast.success("update successfully");
   };
 
-  // handle submit updateData
+  useEffect(() => {
+    uploadImage();
+  }, [image]);
+
+  console.log(thumbnails);
   const onSubmit = (data) => {
-    data["thumbnail"] = thumbnails;
-    if (!data["thumbnail"]) {
-      setDefaultValue["thumbnail"] = userData["thumbnail"];
+    // setValue in defaultValue
+    if (setDefaultValue["thumbnail"] === null) {
+      data["thumbnail"] = userData["thumbnail"];
     }
+
+    if (thumbnails) {
+      data["thumbnail"] = thumbnails;
+    }
+    console.log(data);
     updateUser(data);
   };
 
   //  call fun upload image
-  useEffect(() => {
-    uploadImage();
-  }, [image]);
 
   return (
     <Box

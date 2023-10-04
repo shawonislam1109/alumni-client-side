@@ -11,6 +11,7 @@ import Department from "./Department";
 import ImageUpload from "./dashBoard/Event/ImageUpload";
 import { useState } from "react";
 import { useEffect } from "react";
+import CurrentStatusSelectField from "./StatusCurrSelect";
 
 function Register() {
   // upload image handle
@@ -127,7 +128,7 @@ function Register() {
           </Grid>
           {/* currentStatus */}
           <Grid item xs={12} sm={12} md={6}>
-            <TextFieldCus control={control} label="currentStatus" />
+            <CurrentStatusSelectField control={control} label="currentStatus" />
           </Grid>
           {/* Department section */}
           <Grid item xs={12} sm={12} md={6}>

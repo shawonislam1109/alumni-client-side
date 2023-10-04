@@ -3,11 +3,13 @@ import { useUserGetDataQuery } from "../../Redux/apiSlice/apiSlice";
 
 const AdminRoute = ({ children }) => {
   const navigate = useNavigate();
+  // user authorize check
   const { data: allData } = useUserGetDataQuery();
   const loginData = JSON.parse(localStorage.getItem("login"));
   const filterLogin = allData?.data.find(
     (data) => data?._id === loginData?._id
   );
+
   if (filterLogin?.role == "admin") {
     return children;
   }

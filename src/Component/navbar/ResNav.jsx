@@ -168,7 +168,7 @@ export default function NavSection(props) {
           </Box>
         )}
 
-        {filterLogin?.role == "admin" && (
+        {filterLogin && (
           <Box>
             <Link
               to="/dashboard"

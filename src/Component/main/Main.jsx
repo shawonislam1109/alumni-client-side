@@ -4,12 +4,12 @@ import { Box } from "@mui/material";
 
 const Main = () => {
   return (
-    <div>
+    <Box>
       <NavSection />
       <Box mt={9}>
         <Outlet />
       </Box>
-    </div>
+    </Box>
   );
 };
 
