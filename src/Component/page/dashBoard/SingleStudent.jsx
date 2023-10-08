@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   useCreateAdminMutation,
@@ -14,7 +15,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 const SingleStudent = () => {
@@ -25,6 +25,7 @@ const SingleStudent = () => {
   // create admin action in apiSlice
 
   const [createAminData, { data: createAdminData }] = useCreateAdminMutation();
+  
   //  check authorize admin
   const { data: allData } = useUserGetDataQuery();
   const loginData = JSON.parse(localStorage.getItem("login"));

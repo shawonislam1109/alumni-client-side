@@ -14,11 +14,13 @@ import { useEffect } from "react";
 import CurrentStatusSelectField from "./StatusCurrSelect";
 
 function Register() {
+  const navigate = useNavigate();
+
   // upload image handle
   const [image, setImage] = useState(null);
   const [thumbnails, setSelectedImage] = useState(null);
 
-  const navigate = useNavigate();
+
   // post apiSlice reg Data
   const [userReg, { data: userRegData, isError }] = useUserPostRegMutation();
 
@@ -39,7 +41,7 @@ function Register() {
     }
   };
 
-  //    image Upload cloud
+  //   image Upload cloud
   const uploadImage = () => {
     const data = new FormData();
     data.append("file", image?.target?.files[0]);
@@ -72,6 +74,7 @@ function Register() {
     }
   };
 
+
   // check authorize with toast
   if (userRegData?.status == "success") {
     authReg(userRegData);
@@ -81,6 +84,7 @@ function Register() {
   useEffect(() => {
     uploadImage();
   }, [image]);
+
 
   return (
     <Box mt={2} width="50%" mx="auto">
@@ -93,14 +97,17 @@ function Register() {
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="firstName" />
           </Grid>
+          
           {/* LastName */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="lastName" />
           </Grid>
+
           {/* password */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="password" type="password" />
           </Grid>
+
           {/* Email */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="email" />
@@ -114,30 +121,37 @@ function Register() {
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="presentAddress" />
           </Grid>
+
           {/* parmanetAddress */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="permanentAddress" />
           </Grid>
+
           {/* currentJobLocation */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="currentJobLocation" />
           </Grid>
+
           {/* previousJobLocation */}
           <Grid item xs={12} sm={12} md={6}>
             <TextFieldCus control={control} label="previousJobLocation" />
           </Grid>
+
           {/* currentStatus */}
           <Grid item xs={12} sm={12} md={6}>
             <CurrentStatusSelectField control={control} label="currentStatus" />
           </Grid>
+
           {/* Department section */}
           <Grid item xs={12} sm={12} md={6}>
             <Department control={control} label="department" />
           </Grid>
+
           {/* job Status section */}
           <Grid item xs={12} sm={12} md={6}>
             <SelectField control={control} label="jobStatus" />
           </Grid>
+
           {/* imageUpload */}
           <Grid item xs={12} sm={12} md={6}>
             <ImageUpload
